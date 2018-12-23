@@ -4,10 +4,19 @@ syntax = "proto3";
 // See LICENSE in the root of this repository for details.
 package rpcproto;
 
+// MinerLog holds a miner configuration's logs
+message MinerLog {
+  string Key = 1;
+  repeated string Logs = 2;
+}
+
 // LogsRequest requests logs from a miner
 message LogsRequest {
+  uint32 MaxLines = 1;
 }
 
 // LogsResponse is returned for LogsRequest
 message LogsResponse {
+  // MinerLogs contains the logs for the rig's configurations
+  repeated MinerLog MinerLogs = 1;
 }

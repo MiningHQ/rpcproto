@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+// Copyright (c) 2018 Donovan Solms / MiningHQ. Licensed under the MIT license.
+// See LICENSE in the root of this repository for details.
+package rpcproto;
+
+// ErrorDetail is a generic packet containing error information
+message ErrorDetail {
+  // StatusCode is the HTTP status code
+  uint32 StatusCode = 1;
+  // Status is the text representation of StatusCode
+  string Status = 2;
+  // Reason for StatusCode when StatusCode is an error
+  string Reason = 3;
+}

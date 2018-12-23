@@ -4,10 +4,70 @@ syntax = "proto3";
 // See LICENSE in the root of this repository for details.
 package rpcproto;
 
+// PoolConfig holds the options for the pool to mine to
+message PoolConfig {
+  // Endpoint of the pool, format pool.coin.com:3333
+  string Endpoint = 1;
+  // Username for the pool, usually the wallet address to mine to
+  string Username = 2;
+  // Password for the pool, usually the miner name
+  string Password = 3;
+  // Variant of the given algorithm
+  string Variant = 4;
+}
+
+// CPUConfig holds the options for CPU mining
+message CPUConfig {
+  // ThreadCount is the number of CPU threads to use
+  uint32 ThreadCount = 1;
+}
+
+// NvidiaGPUConfig holds the options for Nvidia GPU mining
+message NvidiaGPUConfig {
+  // TODO
+}
+
+// AMDGPUConfig holds the options for AMD GPU mining
+message AMDGPUConfig {
+  // TODO
+}
+
+// GPUConfig holds the options for GPU mining
+message GPUConfig {
+  // NvidiaGPUConfig holds the options for Nvidia GPU mining
+  repeated NvidiaGPUConfig NvidiaGPUConfigs = 1;
+  // AMDGPUConfig holds the options for AMD GPU mining
+  repeated AMDGPUConfig AMDGPUConfigs = 2;
+}
+
+// MinerConfig holds the options for configuring a miner
+message MinerConfig {
+  // Key identifies this miner's configuration on MiningHQ
+  string Key = 1;
+  // Alghorithm to use when mining
+  string Algorithm = 2;
+  // Miner is the miner to use (like xmrig, xmr-stak, etc)
+  string Miner = 3;
+  // PoolConfig holds the options for the pool to mine to
+  PoolConfig PoolConfig = 4;
+  // CPUConfig holds the options for CPU mining
+  CPUConfig CPUConfig = 5;
+  // GPUConfig holds the options for GPU mining
+  GPUConfig GPUConfig = 6;
+}
+
 // RigAssignmentRequest contains the information for a miner to start mining
 message RigAssignmentRequest {
+  // Configs hold the new configurations for the miner(s)
+  repeated MinerConfig MinerConfigs = 1;
 }
 
 // RigAssignmentResponse is returned for a RigAssignmentRequest
 message RigAssignmentResponse {
+  // StatusCode is the HTTP status code
+  uint32 StatusCode = 1;
+  // Status is the text representation of StatusCode
+  string Status = 2;
+  // Reason for StatusCode when StatusCode is an error
+  string Reason = 3;
 }

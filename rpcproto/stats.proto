@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+// Copyright (c) 2018 Donovan Solms / MiningHQ. Licensed under the MIT license.
+// See LICENSE in the root of this repository for details.
+package rpcproto;
+
+// CPUStats contains the CPU stats
+message CPUStats {
+  repeated double ThreadsHashrate = 1;
+}
+
+// CPUStats contains all the stats for a miner
+message MinerStats {
+  // Key identifies this miner's configuration on MiningHQ
+  string Key = 1;
+  // Hashrate is the current miner hashrate
+  double Hashrate = 2;
+  // MaxHashrate is the highest hashrate achieved since start
+  double MaxHashrate = 3;
+  // TotalHashes is the total number of hashes submitted
+  uint64 TotalHashes = 4;
+  // CurrentDifficulty is the current pool given difficulty
+  uint64 CurrentDifficulty = 5;
+  // TotalShares is the total amount of shares produced since start
+  uint32 TotalShares = 6;
+  // AcceptedShares is the number of pool accepted shares since start
+  uint32 AcceptedShares = 7;
+  // RejectedShares is the number of pool rejected shares
+  uint32 RejectedShares = 8;
+  // CPUs hold the CPU stats of the miner
+  repeated CPUStats CPUs = 9;
+}
+
+// StatsRequest requests stats from the miner
+message StatsRequest {
+}
+
+// StateResponse is sent in response to a StatsRequest and periodically
+message StatsResponse {
+  // Stats contains the miner's stats
+  repeated MinerStats Stats = 1;
+}

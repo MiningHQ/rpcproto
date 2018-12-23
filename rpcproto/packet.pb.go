@@ -27,27 +27,35 @@ const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 type Method int32
 
 const (
-	Method_Unknown Method = 0
+	Method_UnknownMethod Method = 0
+	// Error information
+	Method_Error Method = 1
 	// RigAssignment sets a miner's mining assignment
-	Method_RigAssignment Method = 1
+	Method_RigAssignment Method = 2
 	// State updates a miner's state
-	Method_State Method = 2
+	Method_State Method = 3
 	// Logs requests logs from a miner
-	Method_Logs Method = 3
+	Method_Logs Method = 4
+	// Stats requests and send miner stats
+	Method_Stats Method = 5
 )
 
 var Method_name = map[int32]string{
-	0: "Unknown",
-	1: "RigAssignment",
-	2: "State",
-	3: "Logs",
+	0: "UnknownMethod",
+	1: "Error",
+	2: "RigAssignment",
+	3: "State",
+	4: "Logs",
+	5: "Stats",
 }
 
 var Method_value = map[string]int32{
-	"Unknown":       0,
-	"RigAssignment": 1,
-	"State":         2,
-	"Logs":          3,
+	"UnknownMethod": 0,
+	"Error":         1,
+	"RigAssignment": 2,
+	"State":         3,
+	"Logs":          4,
+	"Stats":         5,
 }
 
 func (x Method) String() string {
@@ -65,8 +73,11 @@ type Packet struct {
 	// Params contain the information needed for Method
 	//
 	// Types that are valid to be assigned to Params:
+	//	*Packet_Error
 	//	*Packet_LogsRequest
 	//	*Packet_LogsResponse
+	//	*Packet_StatsRequest
+	//	*Packet_StatsResponse
 	//	*Packet_StateRequest
 	//	*Packet_StateResponse
 	//	*Packet_RigAssignmentRequest
@@ -106,40 +117,58 @@ func (m *Packet) GetMethod() Method {
 	if m != nil {
 		return m.Method
 	}
-	return Method_Unknown
+	return Method_UnknownMethod
 }
 
 type isPacket_Params interface {
 	isPacket_Params()
 }
 
+type Packet_Error struct {
+	Error *ErrorDetail `protobuf:"bytes,2,opt,name=Error,proto3,oneof"`
+}
+
 type Packet_LogsRequest struct {
-	LogsRequest *LogsRequest `protobuf:"bytes,2,opt,name=LogsRequest,proto3,oneof"`
+	LogsRequest *LogsRequest `protobuf:"bytes,3,opt,name=LogsRequest,proto3,oneof"`
 }
 
 type Packet_LogsResponse struct {
-	LogsResponse *LogsResponse `protobuf:"bytes,3,opt,name=LogsResponse,proto3,oneof"`
+	LogsResponse *LogsResponse `protobuf:"bytes,4,opt,name=LogsResponse,proto3,oneof"`
+}
+
+type Packet_StatsRequest struct {
+	StatsRequest *StatsRequest `protobuf:"bytes,5,opt,name=StatsRequest,proto3,oneof"`
+}
+
+type Packet_StatsResponse struct {
+	StatsResponse *StatsResponse `protobuf:"bytes,6,opt,name=StatsResponse,proto3,oneof"`
 }
 
 type Packet_StateRequest struct {
-	StateRequest *StateRequest `protobuf:"bytes,4,opt,name=StateRequest,proto3,oneof"`
+	StateRequest *StateRequest `protobuf:"bytes,7,opt,name=StateRequest,proto3,oneof"`
 }
 
 type Packet_StateResponse struct {
-	StateResponse *StateResponse `protobuf:"bytes,5,opt,name=StateResponse,proto3,oneof"`
+	StateResponse *StateResponse `protobuf:"bytes,8,opt,name=StateResponse,proto3,oneof"`
 }
 
 type Packet_RigAssignmentRequest struct {
-	RigAssignmentRequest *RigAssignmentRequest `protobuf:"bytes,6,opt,name=RigAssignmentRequest,proto3,oneof"`
+	RigAssignmentRequest *RigAssignmentRequest `protobuf:"bytes,9,opt,name=RigAssignmentRequest,proto3,oneof"`
 }
 
 type Packet_RigAssignmentResponse struct {
-	RigAssignmentResponse *RigAssignmentResponse `protobuf:"bytes,7,opt,name=RigAssignmentResponse,proto3,oneof"`
+	RigAssignmentResponse *RigAssignmentResponse `protobuf:"bytes,10,opt,name=RigAssignmentResponse,proto3,oneof"`
 }
+
+func (*Packet_Error) isPacket_Params() {}
 
 func (*Packet_LogsRequest) isPacket_Params() {}
 
 func (*Packet_LogsResponse) isPacket_Params() {}
+
+func (*Packet_StatsRequest) isPacket_Params() {}
+
+func (*Packet_StatsResponse) isPacket_Params() {}
 
 func (*Packet_StateRequest) isPacket_Params() {}
 
@@ -156,6 +185,13 @@ func (m *Packet) GetParams() isPacket_Params {
 	return nil
 }
 
+func (m *Packet) GetError() *ErrorDetail {
+	if x, ok := m.GetParams().(*Packet_Error); ok {
+		return x.Error
+	}
+	return nil
+}
+
 func (m *Packet) GetLogsRequest() *LogsRequest {
 	if x, ok := m.GetParams().(*Packet_LogsRequest); ok {
 		return x.LogsRequest
@@ -166,6 +202,20 @@ func (m *Packet) GetLogsRequest() *LogsRequest {
 func (m *Packet) GetLogsResponse() *LogsResponse {
 	if x, ok := m.GetParams().(*Packet_LogsResponse); ok {
 		return x.LogsResponse
+	}
+	return nil
+}
+
+func (m *Packet) GetStatsRequest() *StatsRequest {
+	if x, ok := m.GetParams().(*Packet_StatsRequest); ok {
+		return x.StatsRequest
+	}
+	return nil
+}
+
+func (m *Packet) GetStatsResponse() *StatsResponse {
+	if x, ok := m.GetParams().(*Packet_StatsResponse); ok {
+		return x.StatsResponse
 	}
 	return nil
 }
@@ -201,8 +251,11 @@ func (m *Packet) GetRigAssignmentResponse() *RigAssignmentResponse {
 // XXX_OneofFuncs is for the internal use of the proto package.
 func (*Packet) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
 	return _Packet_OneofMarshaler, _Packet_OneofUnmarshaler, _Packet_OneofSizer, []interface{}{
+		(*Packet_Error)(nil),
 		(*Packet_LogsRequest)(nil),
 		(*Packet_LogsResponse)(nil),
+		(*Packet_StatsRequest)(nil),
+		(*Packet_StatsResponse)(nil),
 		(*Packet_StateRequest)(nil),
 		(*Packet_StateResponse)(nil),
 		(*Packet_RigAssignmentRequest)(nil),
@@ -214,33 +267,48 @@ func _Packet_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
 	m := msg.(*Packet)
 	// Params
 	switch x := m.Params.(type) {
-	case *Packet_LogsRequest:
+	case *Packet_Error:
 		b.EncodeVarint(2<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.Error); err != nil {
+			return err
+		}
+	case *Packet_LogsRequest:
+		b.EncodeVarint(3<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.LogsRequest); err != nil {
 			return err
 		}
 	case *Packet_LogsResponse:
-		b.EncodeVarint(3<<3 | proto.WireBytes)
+		b.EncodeVarint(4<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.LogsResponse); err != nil {
 			return err
 		}
+	case *Packet_StatsRequest:
+		b.EncodeVarint(5<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.StatsRequest); err != nil {
+			return err
+		}
+	case *Packet_StatsResponse:
+		b.EncodeVarint(6<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.StatsResponse); err != nil {
+			return err
+		}
 	case *Packet_StateRequest:
-		b.EncodeVarint(4<<3 | proto.WireBytes)
+		b.EncodeVarint(7<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.StateRequest); err != nil {
 			return err
 		}
 	case *Packet_StateResponse:
-		b.EncodeVarint(5<<3 | proto.WireBytes)
+		b.EncodeVarint(8<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.StateResponse); err != nil {
 			return err
 		}
 	case *Packet_RigAssignmentRequest:
-		b.EncodeVarint(6<<3 | proto.WireBytes)
+		b.EncodeVarint(9<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.RigAssignmentRequest); err != nil {
 			return err
 		}
 	case *Packet_RigAssignmentResponse:
-		b.EncodeVarint(7<<3 | proto.WireBytes)
+		b.EncodeVarint(10<<3 | proto.WireBytes)
 		if err := b.EncodeMessage(x.RigAssignmentResponse); err != nil {
 			return err
 		}
@@ -254,7 +322,15 @@ func _Packet_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
 func _Packet_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
 	m := msg.(*Packet)
 	switch tag {
-	case 2: // Params.LogsRequest
+	case 2: // Params.Error
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(ErrorDetail)
+		err := b.DecodeMessage(msg)
+		m.Params = &Packet_Error{msg}
+		return true, err
+	case 3: // Params.LogsRequest
 		if wire != proto.WireBytes {
 			return true, proto.ErrInternalBadWireType
 		}
@@ -262,7 +338,7 @@ func _Packet_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer)
 		err := b.DecodeMessage(msg)
 		m.Params = &Packet_LogsRequest{msg}
 		return true, err
-	case 3: // Params.LogsResponse
+	case 4: // Params.LogsResponse
 		if wire != proto.WireBytes {
 			return true, proto.ErrInternalBadWireType
 		}
@@ -270,7 +346,23 @@ func _Packet_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer)
 		err := b.DecodeMessage(msg)
 		m.Params = &Packet_LogsResponse{msg}
 		return true, err
-	case 4: // Params.StateRequest
+	case 5: // Params.StatsRequest
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(StatsRequest)
+		err := b.DecodeMessage(msg)
+		m.Params = &Packet_StatsRequest{msg}
+		return true, err
+	case 6: // Params.StatsResponse
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(StatsResponse)
+		err := b.DecodeMessage(msg)
+		m.Params = &Packet_StatsResponse{msg}
+		return true, err
+	case 7: // Params.StateRequest
 		if wire != proto.WireBytes {
 			return true, proto.ErrInternalBadWireType
 		}
@@ -278,7 +370,7 @@ func _Packet_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer)
 		err := b.DecodeMessage(msg)
 		m.Params = &Packet_StateRequest{msg}
 		return true, err
-	case 5: // Params.StateResponse
+	case 8: // Params.StateResponse
 		if wire != proto.WireBytes {
 			return true, proto.ErrInternalBadWireType
 		}
@@ -286,7 +378,7 @@ func _Packet_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer)
 		err := b.DecodeMessage(msg)
 		m.Params = &Packet_StateResponse{msg}
 		return true, err
-	case 6: // Params.RigAssignmentRequest
+	case 9: // Params.RigAssignmentRequest
 		if wire != proto.WireBytes {
 			return true, proto.ErrInternalBadWireType
 		}
@@ -294,7 +386,7 @@ func _Packet_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer)
 		err := b.DecodeMessage(msg)
 		m.Params = &Packet_RigAssignmentRequest{msg}
 		return true, err
-	case 7: // Params.RigAssignmentResponse
+	case 10: // Params.RigAssignmentResponse
 		if wire != proto.WireBytes {
 			return true, proto.ErrInternalBadWireType
 		}
@@ -311,6 +403,11 @@ func _Packet_OneofSizer(msg proto.Message) (n int) {
 	m := msg.(*Packet)
 	// Params
 	switch x := m.Params.(type) {
+	case *Packet_Error:
+		s := proto.Size(x.Error)
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
 	case *Packet_LogsRequest:
 		s := proto.Size(x.LogsRequest)
 		n += 1 // tag and wire
@@ -318,6 +415,16 @@ func _Packet_OneofSizer(msg proto.Message) (n int) {
 		n += s
 	case *Packet_LogsResponse:
 		s := proto.Size(x.LogsResponse)
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Packet_StatsRequest:
+		s := proto.Size(x.StatsRequest)
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *Packet_StatsResponse:
+		s := proto.Size(x.StatsResponse)
 		n += 1 // tag and wire
 		n += proto.SizeVarint(uint64(s))
 		n += s
@@ -356,25 +463,28 @@ func init() {
 func init() { proto.RegisterFile("rpcproto/packet.proto", fileDescriptor_6e775f4d4d61f99b) }
 
 var fileDescriptor_6e775f4d4d61f99b = []byte{
-	// 311 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x91, 0xcf, 0x4e, 0xb3, 0x40,
-	0x14, 0xc5, 0xa1, 0xb4, 0x94, 0xef, 0xf2, 0xd5, 0xe0, 0x58, 0x94, 0x34, 0x51, 0x1b, 0x57, 0xc4,
-	0x05, 0x26, 0x75, 0x65, 0xa2, 0x31, 0xba, 0x62, 0xa1, 0x89, 0x19, 0x35, 0x2e, 0x0d, 0xd6, 0x09,
-	0x92, 0xda, 0x19, 0x64, 0xc6, 0xf8, 0xc0, 0xbe, 0x88, 0x61, 0x18, 0xa6, 0x80, 0xb8, 0xbc, 0xe7,
-	0x9e, 0xdf, 0x39, 0xf3, 0x07, 0xfc, 0x22, 0x5f, 0xe6, 0x05, 0x13, 0xec, 0x24, 0x4f, 0x96, 0x2b,
-	0x22, 0x22, 0x39, 0x20, 0xa7, 0x96, 0x67, 0x3b, 0xda, 0xf0, 0xce, 0x52, 0x5e, 0xad, 0x67, 0x53,
-	0x2d, 0x72, 0x91, 0x08, 0xa2, 0xd4, 0x7d, 0xad, 0x16, 0x59, 0xfa, 0x9c, 0x70, 0x9e, 0xa5, 0x74,
-	0x4d, 0xa8, 0xca, 0x3c, 0xfa, 0xb6, 0xc0, 0xbe, 0x93, 0x25, 0x28, 0x04, 0xfb, 0x96, 0x88, 0x37,
-	0xf6, 0x1a, 0x98, 0x73, 0x33, 0xdc, 0x5a, 0x78, 0x51, 0x8d, 0x46, 0x95, 0x8e, 0xd5, 0x1e, 0x9d,
-	0x81, 0x7b, 0xc3, 0x52, 0x8e, 0xc9, 0xc7, 0x27, 0xe1, 0x22, 0x18, 0xcc, 0xcd, 0xd0, 0x5d, 0xf8,
-	0x1b, 0x7b, 0x63, 0x19, 0x1b, 0xb8, 0xe9, 0x45, 0xe7, 0xf0, 0xbf, 0x1a, 0x79, 0xce, 0x28, 0x27,
-	0x81, 0x25, 0xd9, 0xdd, 0x2e, 0x5b, 0x6d, 0x63, 0x03, 0xb7, 0xdc, 0x25, 0x7d, 0x5f, 0xde, 0xad,
-	0x6e, 0x1e, 0x76, 0xe9, 0xe6, 0xb6, 0xa4, 0x9b, 0x33, 0xba, 0x84, 0x89, 0x9a, 0x55, 0xf9, 0x48,
-	0xe2, 0x7b, 0xbf, 0x70, 0xdd, 0xde, 0xf6, 0xa3, 0x07, 0x98, 0xe2, 0x2c, 0xbd, 0xd2, 0x6f, 0x58,
-	0x1f, 0xc3, 0x96, 0x39, 0x07, 0x9b, 0x9c, 0x3e, 0x57, 0x6c, 0xe0, 0x5e, 0x1a, 0x3d, 0x81, 0xdf,
-	0xd1, 0xd5, 0xf1, 0xc6, 0x32, 0xf6, 0xf0, 0xcf, 0x58, 0x7d, 0xcc, 0x7e, 0xfe, 0xda, 0x29, 0xbf,
-	0xb6, 0x48, 0xd6, 0xfc, 0xf8, 0xa2, 0xfe, 0x5a, 0xe4, 0xc2, 0xf8, 0x91, 0xae, 0x28, 0xfb, 0xa2,
-	0x9e, 0x81, 0xb6, 0x61, 0xd2, 0x22, 0x3d, 0x13, 0xfd, 0x83, 0x91, 0xbc, 0xb3, 0x37, 0x40, 0x0e,
-	0x0c, 0xcb, 0xc7, 0xf7, 0xac, 0x17, 0x5b, 0xd6, 0x9f, 0xfe, 0x04, 0x00, 0x00, 0xff, 0xff, 0xb3,
-	0x73, 0x60, 0x64, 0x98, 0x02, 0x00, 0x00,
+	// 365 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x52, 0x5d, 0x4b, 0xc3, 0x30,
+	0x14, 0x6d, 0xb7, 0xb5, 0x76, 0x99, 0x93, 0x1a, 0x37, 0x2d, 0x03, 0x75, 0xf8, 0x34, 0x04, 0x27,
+	0xcc, 0x27, 0x41, 0x10, 0x45, 0xa1, 0x0f, 0x0a, 0x52, 0x15, 0xf1, 0x49, 0xea, 0xbc, 0xd4, 0xb2,
+	0xad, 0xa9, 0x49, 0xc4, 0xdf, 0xe1, 0x3f, 0x96, 0xa4, 0x4d, 0xd6, 0x65, 0xf5, 0xf1, 0x9e, 0x8f,
+	0x7b, 0x0e, 0xc9, 0x45, 0x7d, 0x9a, 0x4f, 0x73, 0x4a, 0x38, 0x39, 0xcd, 0xe3, 0xe9, 0x0c, 0xf8,
+	0x58, 0x0e, 0xd8, 0x53, 0xf0, 0x60, 0x47, 0x0b, 0xe6, 0x24, 0x61, 0x05, 0x3d, 0xe8, 0x69, 0x10,
+	0x28, 0x25, 0x74, 0x0d, 0x65, 0x3c, 0xe6, 0x50, 0x8b, 0xaa, 0x0d, 0xfb, 0x1a, 0xa5, 0x69, 0xf2,
+	0x16, 0x33, 0x96, 0x26, 0xd9, 0x02, 0xb2, 0x32, 0xff, 0xe8, 0xd7, 0x41, 0xee, 0x83, 0x2c, 0x84,
+	0x47, 0xc8, 0xbd, 0x07, 0xfe, 0x49, 0x3e, 0x02, 0x7b, 0x68, 0x8f, 0xb6, 0x26, 0xfe, 0x58, 0x59,
+	0xc7, 0x05, 0x1e, 0x95, 0x3c, 0x3e, 0x41, 0xce, 0xad, 0xa8, 0x13, 0x34, 0x86, 0xf6, 0xa8, 0x33,
+	0xe9, 0x2f, 0x85, 0x12, 0xbe, 0x01, 0x1e, 0xa7, 0xf3, 0xd0, 0x8a, 0x0a, 0x15, 0x3e, 0x47, 0x9d,
+	0x3b, 0x92, 0xb0, 0x08, 0xbe, 0xbe, 0x81, 0xf1, 0xa0, 0x69, 0x9a, 0x2a, 0x64, 0x68, 0x45, 0x55,
+	0x2d, 0xbe, 0x40, 0x9b, 0xc5, 0xc8, 0x72, 0x92, 0x31, 0x08, 0x5a, 0xd2, 0xbb, 0x6b, 0x7a, 0x0b,
+	0x36, 0xb4, 0xa2, 0x15, 0xb5, 0x70, 0x3f, 0x8a, 0xa7, 0x50, 0xc9, 0x8e, 0xe9, 0xae, 0xb2, 0xc2,
+	0x5d, 0x9d, 0xf1, 0x25, 0xea, 0x96, 0x73, 0x19, 0xee, 0x4a, 0xfb, 0xde, 0x9a, 0x5d, 0xa7, 0xaf,
+	0xea, 0x55, 0x3c, 0xa8, 0xf8, 0x8d, 0xba, 0x78, 0x30, 0xe2, 0xc1, 0x88, 0x07, 0x1d, 0xef, 0xd5,
+	0xc5, 0x83, 0x19, 0xaf, 0x01, 0xfc, 0x84, 0x7a, 0x51, 0x9a, 0x5c, 0xe9, 0x1f, 0x57, 0x35, 0xda,
+	0x72, 0xcf, 0xc1, 0x72, 0x4f, 0x9d, 0x2a, 0xb4, 0xa2, 0x5a, 0x37, 0x7e, 0x41, 0x7d, 0x03, 0x2f,
+	0xeb, 0x21, 0xb9, 0xf6, 0xf0, 0xdf, 0xb5, 0xba, 0x66, 0xbd, 0xff, 0xda, 0x13, 0x87, 0x48, 0xe3,
+	0x05, 0x3b, 0x7e, 0x55, 0x87, 0x88, 0xb7, 0x51, 0xf7, 0x39, 0x9b, 0x65, 0xe4, 0x27, 0x2b, 0x00,
+	0xdf, 0xc2, 0xed, 0xf2, 0xf6, 0x7c, 0x5b, 0xb0, 0x2b, 0xab, 0xfc, 0x86, 0x60, 0xe5, 0x23, 0xf8,
+	0x4d, 0xec, 0xa1, 0x96, 0x38, 0x06, 0xbf, 0xa5, 0x40, 0xe6, 0x3b, 0xef, 0xae, 0xac, 0x76, 0xf6,
+	0x17, 0x00, 0x00, 0xff, 0xff, 0x18, 0x7d, 0x84, 0x37, 0x8e, 0x03, 0x00, 0x00,
 }

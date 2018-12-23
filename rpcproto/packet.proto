@@ -5,18 +5,24 @@ syntax = "proto3";
 package rpcproto;
 
 import "rpcproto/logs.proto";
+import "rpcproto/error.proto";
 import "rpcproto/state.proto";
+import "rpcproto/stats.proto";
 import "rpcproto/rig_assignment.proto";
 
 // Method is the supported methods for RPC calls
 enum Method {
-  Unknown = 0;
+  UnknownMethod = 0;
+  // Error information
+  Error = 1;
   // RigAssignment sets a miner's mining assignment
-  RigAssignment = 1;
+  RigAssignment = 2;
   // State updates a miner's state
-  State = 2;
+  State = 3;
   // Logs requests logs from a miner
-  Logs = 3;
+  Logs = 4;
+  // Stats requests and send miner stats
+  Stats = 5;
 }
 
 // Packet contains the RPC call information sent over websockets
@@ -25,11 +31,14 @@ message Packet {
   Method Method = 1;
   // Params contain the information needed for Method
   oneof Params {
-    LogsRequest LogsRequest = 2;
-    LogsResponse LogsResponse = 3;
-    StateRequest StateRequest = 4;
-    StateResponse StateResponse = 5;
-    RigAssignmentRequest RigAssignmentRequest = 6;
-    RigAssignmentResponse RigAssignmentResponse = 7;
+    ErrorDetail Error = 2;
+    LogsRequest LogsRequest = 3;
+    LogsResponse LogsResponse = 4;
+    StatsRequest StatsRequest = 5;
+    StatsResponse StatsResponse = 6;
+    StateRequest StateRequest = 7;
+    StateResponse StateResponse = 8;
+    RigAssignmentRequest RigAssignmentRequest = 9;
+    RigAssignmentResponse RigAssignmentResponse = 10;
   }
 }

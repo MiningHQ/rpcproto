@@ -4,10 +4,30 @@ syntax = "proto3";
 // See LICENSE in the root of this repository for details.
 package rpcproto;
 
+// MinerState holds the possible miner states
+enum MinerState {
+  // UnknownState
+  UnknownState = 0;
+  // StartMining starts the miner
+  StartMining = 1;
+  // Mining indicates the miner(s) are running
+  Mining = 2;
+  // StartMining stops the miner
+  StopMining = 3;
+}
+
 // StateRequest updates a miner's state
 message StateRequest {
+  // State is the state to update to
+  MinerState State = 1;
 }
 
 // StateResponse is returned for a StateRequest
 message StateResponse {
+  // StatusCode is the HTTP status code
+  uint32 StatusCode = 1;
+  // Status is the text representation of StatusCode
+  string Status = 2;
+  // Reason for StatusCode when StatusCode is an error
+  string Reason = 3;
 }

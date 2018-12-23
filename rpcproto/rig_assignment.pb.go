@@ -23,18 +23,329 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-// RigAssignmentRequest contains the information for a miner to start mining
-type RigAssignmentRequest struct {
+// PoolConfig holds the options for the pool to mine to
+type PoolConfig struct {
+	// Endpoint of the pool, format pool.coin.com:3333
+	Endpoint string `protobuf:"bytes,1,opt,name=Endpoint,proto3" json:"Endpoint,omitempty"`
+	// Username for the pool, usually the wallet address to mine to
+	Username string `protobuf:"bytes,2,opt,name=Username,proto3" json:"Username,omitempty"`
+	// Password for the pool, usually the miner name
+	Password string `protobuf:"bytes,3,opt,name=Password,proto3" json:"Password,omitempty"`
+	// Variant of the given algorithm
+	Variant              string   `protobuf:"bytes,4,opt,name=Variant,proto3" json:"Variant,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *PoolConfig) Reset()         { *m = PoolConfig{} }
+func (m *PoolConfig) String() string { return proto.CompactTextString(m) }
+func (*PoolConfig) ProtoMessage()    {}
+func (*PoolConfig) Descriptor() ([]byte, []int) {
+	return fileDescriptor_98b32283fa8ae293, []int{0}
+}
+
+func (m *PoolConfig) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PoolConfig.Unmarshal(m, b)
+}
+func (m *PoolConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PoolConfig.Marshal(b, m, deterministic)
+}
+func (m *PoolConfig) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PoolConfig.Merge(m, src)
+}
+func (m *PoolConfig) XXX_Size() int {
+	return xxx_messageInfo_PoolConfig.Size(m)
+}
+func (m *PoolConfig) XXX_DiscardUnknown() {
+	xxx_messageInfo_PoolConfig.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PoolConfig proto.InternalMessageInfo
+
+func (m *PoolConfig) GetEndpoint() string {
+	if m != nil {
+		return m.Endpoint
+	}
+	return ""
+}
+
+func (m *PoolConfig) GetUsername() string {
+	if m != nil {
+		return m.Username
+	}
+	return ""
+}
+
+func (m *PoolConfig) GetPassword() string {
+	if m != nil {
+		return m.Password
+	}
+	return ""
+}
+
+func (m *PoolConfig) GetVariant() string {
+	if m != nil {
+		return m.Variant
+	}
+	return ""
+}
+
+// CPUConfig holds the options for CPU mining
+type CPUConfig struct {
+	// ThreadCount is the number of CPU threads to use
+	ThreadCount          uint32   `protobuf:"varint,1,opt,name=ThreadCount,proto3" json:"ThreadCount,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CPUConfig) Reset()         { *m = CPUConfig{} }
+func (m *CPUConfig) String() string { return proto.CompactTextString(m) }
+func (*CPUConfig) ProtoMessage()    {}
+func (*CPUConfig) Descriptor() ([]byte, []int) {
+	return fileDescriptor_98b32283fa8ae293, []int{1}
+}
+
+func (m *CPUConfig) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CPUConfig.Unmarshal(m, b)
+}
+func (m *CPUConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CPUConfig.Marshal(b, m, deterministic)
+}
+func (m *CPUConfig) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CPUConfig.Merge(m, src)
+}
+func (m *CPUConfig) XXX_Size() int {
+	return xxx_messageInfo_CPUConfig.Size(m)
+}
+func (m *CPUConfig) XXX_DiscardUnknown() {
+	xxx_messageInfo_CPUConfig.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CPUConfig proto.InternalMessageInfo
+
+func (m *CPUConfig) GetThreadCount() uint32 {
+	if m != nil {
+		return m.ThreadCount
+	}
+	return 0
+}
+
+// NvidiaGPUConfig holds the options for Nvidia GPU mining
+type NvidiaGPUConfig struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *NvidiaGPUConfig) Reset()         { *m = NvidiaGPUConfig{} }
+func (m *NvidiaGPUConfig) String() string { return proto.CompactTextString(m) }
+func (*NvidiaGPUConfig) ProtoMessage()    {}
+func (*NvidiaGPUConfig) Descriptor() ([]byte, []int) {
+	return fileDescriptor_98b32283fa8ae293, []int{2}
+}
+
+func (m *NvidiaGPUConfig) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_NvidiaGPUConfig.Unmarshal(m, b)
+}
+func (m *NvidiaGPUConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_NvidiaGPUConfig.Marshal(b, m, deterministic)
+}
+func (m *NvidiaGPUConfig) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NvidiaGPUConfig.Merge(m, src)
+}
+func (m *NvidiaGPUConfig) XXX_Size() int {
+	return xxx_messageInfo_NvidiaGPUConfig.Size(m)
+}
+func (m *NvidiaGPUConfig) XXX_DiscardUnknown() {
+	xxx_messageInfo_NvidiaGPUConfig.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_NvidiaGPUConfig proto.InternalMessageInfo
+
+// AMDGPUConfig holds the options for AMD GPU mining
+type AMDGPUConfig struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *AMDGPUConfig) Reset()         { *m = AMDGPUConfig{} }
+func (m *AMDGPUConfig) String() string { return proto.CompactTextString(m) }
+func (*AMDGPUConfig) ProtoMessage()    {}
+func (*AMDGPUConfig) Descriptor() ([]byte, []int) {
+	return fileDescriptor_98b32283fa8ae293, []int{3}
+}
+
+func (m *AMDGPUConfig) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_AMDGPUConfig.Unmarshal(m, b)
+}
+func (m *AMDGPUConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_AMDGPUConfig.Marshal(b, m, deterministic)
+}
+func (m *AMDGPUConfig) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AMDGPUConfig.Merge(m, src)
+}
+func (m *AMDGPUConfig) XXX_Size() int {
+	return xxx_messageInfo_AMDGPUConfig.Size(m)
+}
+func (m *AMDGPUConfig) XXX_DiscardUnknown() {
+	xxx_messageInfo_AMDGPUConfig.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AMDGPUConfig proto.InternalMessageInfo
+
+// GPUConfig holds the options for GPU mining
+type GPUConfig struct {
+	// NvidiaGPUConfig holds the options for Nvidia GPU mining
+	NvidiaGPUConfigs []*NvidiaGPUConfig `protobuf:"bytes,1,rep,name=NvidiaGPUConfigs,proto3" json:"NvidiaGPUConfigs,omitempty"`
+	// AMDGPUConfig holds the options for AMD GPU mining
+	AMDGPUConfigs        []*AMDGPUConfig `protobuf:"bytes,2,rep,name=AMDGPUConfigs,proto3" json:"AMDGPUConfigs,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
+}
+
+func (m *GPUConfig) Reset()         { *m = GPUConfig{} }
+func (m *GPUConfig) String() string { return proto.CompactTextString(m) }
+func (*GPUConfig) ProtoMessage()    {}
+func (*GPUConfig) Descriptor() ([]byte, []int) {
+	return fileDescriptor_98b32283fa8ae293, []int{4}
+}
+
+func (m *GPUConfig) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GPUConfig.Unmarshal(m, b)
+}
+func (m *GPUConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GPUConfig.Marshal(b, m, deterministic)
+}
+func (m *GPUConfig) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GPUConfig.Merge(m, src)
+}
+func (m *GPUConfig) XXX_Size() int {
+	return xxx_messageInfo_GPUConfig.Size(m)
+}
+func (m *GPUConfig) XXX_DiscardUnknown() {
+	xxx_messageInfo_GPUConfig.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GPUConfig proto.InternalMessageInfo
+
+func (m *GPUConfig) GetNvidiaGPUConfigs() []*NvidiaGPUConfig {
+	if m != nil {
+		return m.NvidiaGPUConfigs
+	}
+	return nil
+}
+
+func (m *GPUConfig) GetAMDGPUConfigs() []*AMDGPUConfig {
+	if m != nil {
+		return m.AMDGPUConfigs
+	}
+	return nil
+}
+
+// MinerConfig holds the options for configuring a miner
+type MinerConfig struct {
+	// Key identifies this miner's configuration on MiningHQ
+	Key string `protobuf:"bytes,1,opt,name=Key,proto3" json:"Key,omitempty"`
+	// Alghorithm to use when mining
+	Algorithm string `protobuf:"bytes,2,opt,name=Algorithm,proto3" json:"Algorithm,omitempty"`
+	// Miner is the miner to use (like xmrig, xmr-stak, etc)
+	Miner string `protobuf:"bytes,3,opt,name=Miner,proto3" json:"Miner,omitempty"`
+	// PoolConfig holds the options for the pool to mine to
+	PoolConfig *PoolConfig `protobuf:"bytes,4,opt,name=PoolConfig,proto3" json:"PoolConfig,omitempty"`
+	// CPUConfig holds the options for CPU mining
+	CPUConfig *CPUConfig `protobuf:"bytes,5,opt,name=CPUConfig,proto3" json:"CPUConfig,omitempty"`
+	// GPUConfig holds the options for GPU mining
+	GPUConfig            *GPUConfig `protobuf:"bytes,6,opt,name=GPUConfig,proto3" json:"GPUConfig,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
+}
+
+func (m *MinerConfig) Reset()         { *m = MinerConfig{} }
+func (m *MinerConfig) String() string { return proto.CompactTextString(m) }
+func (*MinerConfig) ProtoMessage()    {}
+func (*MinerConfig) Descriptor() ([]byte, []int) {
+	return fileDescriptor_98b32283fa8ae293, []int{5}
+}
+
+func (m *MinerConfig) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MinerConfig.Unmarshal(m, b)
+}
+func (m *MinerConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MinerConfig.Marshal(b, m, deterministic)
+}
+func (m *MinerConfig) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MinerConfig.Merge(m, src)
+}
+func (m *MinerConfig) XXX_Size() int {
+	return xxx_messageInfo_MinerConfig.Size(m)
+}
+func (m *MinerConfig) XXX_DiscardUnknown() {
+	xxx_messageInfo_MinerConfig.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MinerConfig proto.InternalMessageInfo
+
+func (m *MinerConfig) GetKey() string {
+	if m != nil {
+		return m.Key
+	}
+	return ""
+}
+
+func (m *MinerConfig) GetAlgorithm() string {
+	if m != nil {
+		return m.Algorithm
+	}
+	return ""
+}
+
+func (m *MinerConfig) GetMiner() string {
+	if m != nil {
+		return m.Miner
+	}
+	return ""
+}
+
+func (m *MinerConfig) GetPoolConfig() *PoolConfig {
+	if m != nil {
+		return m.PoolConfig
+	}
+	return nil
+}
+
+func (m *MinerConfig) GetCPUConfig() *CPUConfig {
+	if m != nil {
+		return m.CPUConfig
+	}
+	return nil
+}
+
+func (m *MinerConfig) GetGPUConfig() *GPUConfig {
+	if m != nil {
+		return m.GPUConfig
+	}
+	return nil
+}
+
+// RigAssignmentRequest contains the information for a miner to start mining
+type RigAssignmentRequest struct {
+	// Configs hold the new configurations for the miner(s)
+	MinerConfigs         []*MinerConfig `protobuf:"bytes,1,rep,name=MinerConfigs,proto3" json:"MinerConfigs,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
+	XXX_unrecognized     []byte         `json:"-"`
+	XXX_sizecache        int32          `json:"-"`
 }
 
 func (m *RigAssignmentRequest) Reset()         { *m = RigAssignmentRequest{} }
 func (m *RigAssignmentRequest) String() string { return proto.CompactTextString(m) }
 func (*RigAssignmentRequest) ProtoMessage()    {}
 func (*RigAssignmentRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_98b32283fa8ae293, []int{0}
+	return fileDescriptor_98b32283fa8ae293, []int{6}
 }
 
 func (m *RigAssignmentRequest) XXX_Unmarshal(b []byte) error {
@@ -55,8 +366,21 @@ func (m *RigAssignmentRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RigAssignmentRequest proto.InternalMessageInfo
 
+func (m *RigAssignmentRequest) GetMinerConfigs() []*MinerConfig {
+	if m != nil {
+		return m.MinerConfigs
+	}
+	return nil
+}
+
 // RigAssignmentResponse is returned for a RigAssignmentRequest
 type RigAssignmentResponse struct {
+	// StatusCode is the HTTP status code
+	StatusCode uint32 `protobuf:"varint,1,opt,name=StatusCode,proto3" json:"StatusCode,omitempty"`
+	// Status is the text representation of StatusCode
+	Status string `protobuf:"bytes,2,opt,name=Status,proto3" json:"Status,omitempty"`
+	// Reason for StatusCode when StatusCode is an error
+	Reason               string   `protobuf:"bytes,3,opt,name=Reason,proto3" json:"Reason,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -66,7 +390,7 @@ func (m *RigAssignmentResponse) Reset()         { *m = RigAssignmentResponse{} }
 func (m *RigAssignmentResponse) String() string { return proto.CompactTextString(m) }
 func (*RigAssignmentResponse) ProtoMessage()    {}
 func (*RigAssignmentResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_98b32283fa8ae293, []int{1}
+	return fileDescriptor_98b32283fa8ae293, []int{7}
 }
 
 func (m *RigAssignmentResponse) XXX_Unmarshal(b []byte) error {
@@ -87,7 +411,34 @@ func (m *RigAssignmentResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RigAssignmentResponse proto.InternalMessageInfo
 
+func (m *RigAssignmentResponse) GetStatusCode() uint32 {
+	if m != nil {
+		return m.StatusCode
+	}
+	return 0
+}
+
+func (m *RigAssignmentResponse) GetStatus() string {
+	if m != nil {
+		return m.Status
+	}
+	return ""
+}
+
+func (m *RigAssignmentResponse) GetReason() string {
+	if m != nil {
+		return m.Reason
+	}
+	return ""
+}
+
 func init() {
+	proto.RegisterType((*PoolConfig)(nil), "rpcproto.PoolConfig")
+	proto.RegisterType((*CPUConfig)(nil), "rpcproto.CPUConfig")
+	proto.RegisterType((*NvidiaGPUConfig)(nil), "rpcproto.NvidiaGPUConfig")
+	proto.RegisterType((*AMDGPUConfig)(nil), "rpcproto.AMDGPUConfig")
+	proto.RegisterType((*GPUConfig)(nil), "rpcproto.GPUConfig")
+	proto.RegisterType((*MinerConfig)(nil), "rpcproto.MinerConfig")
 	proto.RegisterType((*RigAssignmentRequest)(nil), "rpcproto.RigAssignmentRequest")
 	proto.RegisterType((*RigAssignmentResponse)(nil), "rpcproto.RigAssignmentResponse")
 }
@@ -95,11 +446,30 @@ func init() {
 func init() { proto.RegisterFile("rpcproto/rig_assignment.proto", fileDescriptor_98b32283fa8ae293) }
 
 var fileDescriptor_98b32283fa8ae293 = []byte{
-	// 90 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x2d, 0x2a, 0x48, 0x2e,
-	0x28, 0xca, 0x2f, 0xc9, 0xd7, 0x2f, 0xca, 0x4c, 0x8f, 0x4f, 0x2c, 0x2e, 0xce, 0x4c, 0xcf, 0xcb,
-	0x4d, 0xcd, 0x2b, 0xd1, 0x03, 0x0b, 0x0a, 0x71, 0xc0, 0xa4, 0x95, 0xc4, 0xb8, 0x44, 0x82, 0x32,
-	0xd3, 0x1d, 0xe1, 0x0a, 0x82, 0x52, 0x0b, 0x4b, 0x53, 0x8b, 0x4b, 0x94, 0xc4, 0xb9, 0x44, 0xd1,
-	0xc4, 0x8b, 0x0b, 0xf2, 0xf3, 0x8a, 0x53, 0x93, 0xd8, 0xc0, 0xfa, 0x8c, 0x01, 0x01, 0x00, 0x00,
-	0xff, 0xff, 0x2d, 0x7d, 0xa2, 0xf5, 0x62, 0x00, 0x00, 0x00,
+	// 397 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x64, 0x52, 0x51, 0xcf, 0xd2, 0x30,
+	0x14, 0xcd, 0x40, 0x90, 0xdd, 0x81, 0x62, 0x05, 0x52, 0x8d, 0x1a, 0xb2, 0x27, 0x5e, 0xc4, 0x80,
+	0xbe, 0x98, 0xf8, 0x42, 0x26, 0xf1, 0xc1, 0x60, 0xb0, 0x8a, 0xaf, 0xa6, 0xba, 0x3a, 0x9a, 0x40,
+	0x3b, 0xdb, 0xa2, 0xd1, 0x5f, 0xe1, 0x3f, 0xf5, 0x2f, 0x7c, 0xd9, 0xd6, 0xad, 0x65, 0xdf, 0xdb,
+	0xce, 0x39, 0xf7, 0xdc, 0x7b, 0x77, 0x6e, 0xe1, 0xa9, 0xca, 0xbf, 0xe7, 0x4a, 0x1a, 0xf9, 0x42,
+	0xf1, 0xec, 0x2b, 0xd5, 0x9a, 0x67, 0xe2, 0xcc, 0x84, 0x59, 0x96, 0x24, 0x1a, 0xd4, 0x72, 0xfc,
+	0x17, 0x60, 0x2f, 0xe5, 0x29, 0x91, 0xe2, 0x07, 0xcf, 0xd0, 0x63, 0x18, 0x6c, 0x45, 0x9a, 0x4b,
+	0x2e, 0x0c, 0x0e, 0xe6, 0xc1, 0x22, 0x24, 0x0d, 0x2e, 0xb4, 0x83, 0x66, 0x4a, 0xd0, 0x33, 0xc3,
+	0x9d, 0x4a, 0xab, 0x71, 0xa1, 0xed, 0xa9, 0xd6, 0xbf, 0xa5, 0x4a, 0x71, 0xb7, 0xd2, 0x6a, 0x8c,
+	0x30, 0xdc, 0xfd, 0x42, 0x15, 0xa7, 0xc2, 0xe0, 0x3b, 0xa5, 0x54, 0xc3, 0xf8, 0x39, 0x84, 0xc9,
+	0xfe, 0x60, 0x47, 0xcf, 0x21, 0xfa, 0x7c, 0x54, 0x8c, 0xa6, 0x89, 0xbc, 0xd8, 0xe9, 0x23, 0xe2,
+	0x53, 0xf1, 0x03, 0xb8, 0xff, 0xe1, 0x17, 0x4f, 0x39, 0x7d, 0x57, 0x9b, 0xe2, 0x7b, 0x30, 0xdc,
+	0xec, 0xde, 0x3a, 0xfc, 0x2f, 0x80, 0xb0, 0x41, 0x68, 0x0b, 0xe3, 0x96, 0x41, 0xe3, 0x60, 0xde,
+	0x5d, 0x44, 0xeb, 0x47, 0xcb, 0x3a, 0x80, 0x65, 0xab, 0x82, 0xdc, 0xb2, 0xa0, 0x37, 0x30, 0xf2,
+	0x87, 0x68, 0xdc, 0x29, 0x7b, 0xcc, 0x5c, 0x0f, 0x5f, 0x26, 0xd7, 0xc5, 0xf1, 0xff, 0x00, 0xa2,
+	0x1d, 0x17, 0x4c, 0xd9, 0xa5, 0xc6, 0xd0, 0x7d, 0xcf, 0xfe, 0xd8, 0x74, 0x8b, 0x4f, 0xf4, 0x04,
+	0xc2, 0xcd, 0x29, 0x93, 0x8a, 0x9b, 0xe3, 0xd9, 0x26, 0xeb, 0x08, 0x34, 0x81, 0x5e, 0x69, 0xb7,
+	0xb9, 0x56, 0x00, 0xbd, 0xf2, 0xcf, 0x56, 0xe6, 0x1a, 0xad, 0x27, 0x6e, 0x21, 0xa7, 0x11, 0xff,
+	0xbc, 0x2b, 0x2f, 0x70, 0xdc, 0x2b, 0x4d, 0x0f, 0x9d, 0xa9, 0x91, 0x88, 0x77, 0x96, 0x95, 0x17,
+	0x28, 0xee, 0xb7, 0x2d, 0xee, 0xaf, 0x5d, 0x55, 0xfc, 0x11, 0x26, 0x84, 0x67, 0x9b, 0xe6, 0xcd,
+	0x11, 0xf6, 0xf3, 0xc2, 0xb4, 0x41, 0xaf, 0x61, 0xe8, 0x05, 0x51, 0x9f, 0x62, 0xea, 0xba, 0x79,
+	0x2a, 0xb9, 0x2a, 0x8d, 0x33, 0x98, 0xb6, 0x5a, 0xea, 0x5c, 0x0a, 0xcd, 0xd0, 0x33, 0x80, 0x4f,
+	0x86, 0x9a, 0x8b, 0x4e, 0x64, 0xca, 0xec, 0xa3, 0xf1, 0x18, 0x34, 0x83, 0x7e, 0x85, 0x6c, 0xb0,
+	0x16, 0x15, 0x3c, 0x61, 0x54, 0x4b, 0x61, 0x63, 0xb5, 0xe8, 0x5b, 0xbf, 0xdc, 0xe4, 0xe5, 0x4d,
+	0x00, 0x00, 0x00, 0xff, 0xff, 0x49, 0xc1, 0x33, 0xf2, 0x40, 0x03, 0x00, 0x00,
 }
