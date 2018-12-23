@@ -4,12 +4,18 @@ syntax = "proto3";
 // See LICENSE in the root of this repository for details.
 package rpcproto;
 
-// ErrorDetail is a generic packet containing error information
-message ErrorDetail {
-  // StatusCode is the HTTP status code
-  uint32 StatusCode = 1;
-  // Status is the text representation of StatusCode
-  string Status = 2;
-  // Reason for StatusCode when StatusCode is an error
-  string Reason = 3;
+// RigWarningDetail is a packet containing rig specific warning information
+message RigWarningDetail {
+  // MinerKey is the unique miner ID
+  string MinerKey = 1;
+  // Reason for the error
+  string Reason = 2;
+}
+
+// RigErrorDetail is a packet containing rig specific error information
+message RigErrorDetail {
+  // MinerKey is the unique miner ID
+  string MinerKey = 1;
+  // Reason for the error
+  string Reason = 2;
 }

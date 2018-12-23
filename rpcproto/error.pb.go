@@ -8,8 +8,9 @@ package rpcproto
 
 import (
 	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
 	math "math"
+
+	proto "github.com/golang/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -23,59 +24,100 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-// ErrorDetail is a generic packet containing error information
-type ErrorDetail struct {
-	// StatusCode is the HTTP status code
-	StatusCode uint32 `protobuf:"varint,1,opt,name=StatusCode,proto3" json:"StatusCode,omitempty"`
-	// Status is the text representation of StatusCode
-	Status string `protobuf:"bytes,2,opt,name=Status,proto3" json:"Status,omitempty"`
-	// Reason for StatusCode when StatusCode is an error
-	Reason               string   `protobuf:"bytes,3,opt,name=Reason,proto3" json:"Reason,omitempty"`
+// RigWarningDetail is a packet containing rig specific warning information
+type RigWarningDetail struct {
+	// MinerKey is the unique miner ID
+	MinerKey string `protobuf:"bytes,1,opt,name=MinerKey,proto3" json:"MinerKey,omitempty"`
+	// Reason for the error
+	Reason               string   `protobuf:"bytes,2,opt,name=Reason,proto3" json:"Reason,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ErrorDetail) Reset()         { *m = ErrorDetail{} }
-func (m *ErrorDetail) String() string { return proto.CompactTextString(m) }
-func (*ErrorDetail) ProtoMessage()    {}
-func (*ErrorDetail) Descriptor() ([]byte, []int) {
+func (m *RigWarningDetail) Reset()         { *m = RigWarningDetail{} }
+func (m *RigWarningDetail) String() string { return proto.CompactTextString(m) }
+func (*RigWarningDetail) ProtoMessage()    {}
+func (*RigWarningDetail) Descriptor() ([]byte, []int) {
 	return fileDescriptor_3683d2bdffaeef9c, []int{0}
 }
 
-func (m *ErrorDetail) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ErrorDetail.Unmarshal(m, b)
+func (m *RigWarningDetail) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RigWarningDetail.Unmarshal(m, b)
 }
-func (m *ErrorDetail) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ErrorDetail.Marshal(b, m, deterministic)
+func (m *RigWarningDetail) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RigWarningDetail.Marshal(b, m, deterministic)
 }
-func (m *ErrorDetail) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ErrorDetail.Merge(m, src)
+func (m *RigWarningDetail) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RigWarningDetail.Merge(m, src)
 }
-func (m *ErrorDetail) XXX_Size() int {
-	return xxx_messageInfo_ErrorDetail.Size(m)
+func (m *RigWarningDetail) XXX_Size() int {
+	return xxx_messageInfo_RigWarningDetail.Size(m)
 }
-func (m *ErrorDetail) XXX_DiscardUnknown() {
-	xxx_messageInfo_ErrorDetail.DiscardUnknown(m)
+func (m *RigWarningDetail) XXX_DiscardUnknown() {
+	xxx_messageInfo_RigWarningDetail.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ErrorDetail proto.InternalMessageInfo
+var xxx_messageInfo_RigWarningDetail proto.InternalMessageInfo
 
-func (m *ErrorDetail) GetStatusCode() uint32 {
+func (m *RigWarningDetail) GetMinerKey() string {
 	if m != nil {
-		return m.StatusCode
-	}
-	return 0
-}
-
-func (m *ErrorDetail) GetStatus() string {
-	if m != nil {
-		return m.Status
+		return m.MinerKey
 	}
 	return ""
 }
 
-func (m *ErrorDetail) GetReason() string {
+func (m *RigWarningDetail) GetReason() string {
+	if m != nil {
+		return m.Reason
+	}
+	return ""
+}
+
+// RigErrorDetail is a packet containing rig specific error information
+type RigErrorDetail struct {
+	// MinerKey is the unique miner ID
+	MinerKey string `protobuf:"bytes,1,opt,name=MinerKey,proto3" json:"MinerKey,omitempty"`
+	// Reason for the error
+	Reason               string   `protobuf:"bytes,2,opt,name=Reason,proto3" json:"Reason,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *RigErrorDetail) Reset()         { *m = RigErrorDetail{} }
+func (m *RigErrorDetail) String() string { return proto.CompactTextString(m) }
+func (*RigErrorDetail) ProtoMessage()    {}
+func (*RigErrorDetail) Descriptor() ([]byte, []int) {
+	return fileDescriptor_3683d2bdffaeef9c, []int{1}
+}
+
+func (m *RigErrorDetail) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RigErrorDetail.Unmarshal(m, b)
+}
+func (m *RigErrorDetail) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RigErrorDetail.Marshal(b, m, deterministic)
+}
+func (m *RigErrorDetail) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RigErrorDetail.Merge(m, src)
+}
+func (m *RigErrorDetail) XXX_Size() int {
+	return xxx_messageInfo_RigErrorDetail.Size(m)
+}
+func (m *RigErrorDetail) XXX_DiscardUnknown() {
+	xxx_messageInfo_RigErrorDetail.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RigErrorDetail proto.InternalMessageInfo
+
+func (m *RigErrorDetail) GetMinerKey() string {
+	if m != nil {
+		return m.MinerKey
+	}
+	return ""
+}
+
+func (m *RigErrorDetail) GetReason() string {
 	if m != nil {
 		return m.Reason
 	}
@@ -83,19 +125,20 @@ func (m *ErrorDetail) GetReason() string {
 }
 
 func init() {
-	proto.RegisterType((*ErrorDetail)(nil), "rpcproto.ErrorDetail")
+	proto.RegisterType((*RigWarningDetail)(nil), "rpcproto.RigWarningDetail")
+	proto.RegisterType((*RigErrorDetail)(nil), "rpcproto.RigErrorDetail")
 }
 
 func init() { proto.RegisterFile("rpcproto/error.proto", fileDescriptor_3683d2bdffaeef9c) }
 
 var fileDescriptor_3683d2bdffaeef9c = []byte{
-	// 116 bytes of a gzipped FileDescriptorProto
+	// 121 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x29, 0x2a, 0x48, 0x2e,
 	0x28, 0xca, 0x2f, 0xc9, 0xd7, 0x4f, 0x2d, 0x2a, 0xca, 0x2f, 0xd2, 0x03, 0xb3, 0x85, 0x38, 0x60,
-	0xa2, 0x4a, 0xb1, 0x5c, 0xdc, 0xae, 0x20, 0x09, 0x97, 0xd4, 0x92, 0xc4, 0xcc, 0x1c, 0x21, 0x39,
-	0x2e, 0xae, 0xe0, 0x92, 0xc4, 0x92, 0xd2, 0x62, 0xe7, 0xfc, 0x94, 0x54, 0x09, 0x46, 0x05, 0x46,
-	0x0d, 0xde, 0x20, 0x24, 0x11, 0x21, 0x31, 0x2e, 0x36, 0x08, 0x4f, 0x82, 0x49, 0x81, 0x51, 0x83,
-	0x33, 0x08, 0xca, 0x03, 0x89, 0x07, 0xa5, 0x26, 0x16, 0xe7, 0xe7, 0x49, 0x30, 0x43, 0xc4, 0x21,
-	0xbc, 0x24, 0x36, 0xb0, 0x2d, 0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0x82, 0xa1, 0x16, 0xa0,
-	0x87, 0x00, 0x00, 0x00,
+	0xa2, 0x4a, 0x6e, 0x5c, 0x02, 0x41, 0x99, 0xe9, 0xe1, 0x89, 0x45, 0x79, 0x99, 0x79, 0xe9, 0x2e,
+	0xa9, 0x25, 0x89, 0x99, 0x39, 0x42, 0x52, 0x5c, 0x1c, 0xbe, 0x99, 0x79, 0xa9, 0x45, 0xde, 0xa9,
+	0x95, 0x12, 0x8c, 0x0a, 0x8c, 0x1a, 0x9c, 0x41, 0x70, 0xbe, 0x90, 0x18, 0x17, 0x5b, 0x50, 0x6a,
+	0x62, 0x71, 0x7e, 0x9e, 0x04, 0x13, 0x58, 0x06, 0xca, 0x53, 0x72, 0xe1, 0xe2, 0x0b, 0xca, 0x4c,
+	0x77, 0x05, 0xd9, 0x41, 0xbe, 0x29, 0x49, 0x6c, 0x60, 0x47, 0x19, 0x03, 0x02, 0x00, 0x00, 0xff,
+	0xff, 0x9e, 0x60, 0xbe, 0x80, 0xb6, 0x00, 0x00, 0x00,
 }
