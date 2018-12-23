@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+// Copyright (c) 2018 Donovan Solms / MiningHQ. Licensed under the MIT license.
+// See LICENSE in the root of this repository for details.
+package rpcproto;
+
+// StateRequest updates a miner's state
+message StateRequest {
+}
+
+// StateResponse is returned for a StateRequest
+message StateResponse {
+}

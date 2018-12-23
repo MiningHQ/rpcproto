@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package rpcproto;
-
-// WSPacket contains the RPC call information sent over websockets
-message WSPacket {
-}

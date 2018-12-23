@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+// Copyright (c) 2018 Donovan Solms / MiningHQ. Licensed under the MIT license.
+// See LICENSE in the root of this repository for details.
+package rpcproto;
+
+import "rpcproto/logs.proto";
+import "rpcproto/state.proto";
+import "rpcproto/rig_assignment.proto";
+
+// Method is the supported methods for RPC calls
+enum Method {
+  Unknown = 0;
+  // RigAssignment sets a miner's mining assignment
+  RigAssignment = 1;
+  // State updates a miner's state
+  State = 2;
+  // Logs requests logs from a miner
+  Logs = 3;
+}
+
+// Packet contains the RPC call information sent over websockets
+message Packet {
+  // Method is the method to execute
+  Method Method = 1;
+  // Params contain the information needed for Method
+  oneof Params {
+    LogsRequest LogsRequest = 2;
+    LogsResponse LogsResponse = 3;
+    StateRequest StateRequest = 4;
+    StateResponse StateResponse = 5;
+    RigAssignmentRequest RigAssignmentRequest = 6;
+    RigAssignmentResponse RigAssignmentResponse = 7;
+  }
+}

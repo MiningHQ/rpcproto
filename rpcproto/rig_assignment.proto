@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+// Copyright (c) 2018 Donovan Solms / MiningHQ. Licensed under the MIT license.
+// See LICENSE in the root of this repository for details.
+package rpcproto;
+
+// RigAssignmentRequest contains the information for a miner to start mining
+message RigAssignmentRequest {
+}
+
+// RigAssignmentResponse is returned for a RigAssignmentRequest
+message RigAssignmentResponse {
+}

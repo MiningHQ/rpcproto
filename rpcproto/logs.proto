@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+// Copyright (c) 2018 Donovan Solms / MiningHQ. Licensed under the MIT license.
+// See LICENSE in the root of this repository for details.
+package rpcproto;
+
+// LogsRequest requests logs from a miner
+message LogsRequest {
+}
+
+// LogsResponse is returned for LogsRequest
+message LogsResponse {
+}
