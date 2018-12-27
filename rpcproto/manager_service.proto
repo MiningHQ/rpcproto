@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+// Copyright (c) 2018 Donovan Solms / MiningHQ. Licensed under the MIT license.
+// See LICENSE in the root of this repository for details.
+package rpcproto;
+
+import "rpcproto/logs.proto";
+import "rpcproto/state.proto";
+import "rpcproto/stats.proto";
+
+// ManagerService implements a gRPC API for querying the rig locally
+// NB: This service is meant to run on localhost *ONLY*
+service ManagerService {
+  // GetState requests the current rig state
+  rpc GetState (StateRequest) returns (StateResponse);
+  // SetState requests the rig to enter the specified state
+  rpc SetState (StateRequest) returns (StateResponse);
+  // GetStats requests the current stats from the rig
+  rpc GetStats (StatsRequest) returns (StatsResponse);
+  // GetLogs requests a rig's logs
+  rpc GetLogs (LogsRequest) returns (LogsResponse);
+}
