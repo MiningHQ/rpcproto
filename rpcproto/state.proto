@@ -24,10 +24,12 @@ message StateRequest {
 
 // StateResponse is returned for a StateRequest
 message StateResponse {
+  // State is the current state of the rig
+  MinerState State = 1;
   // StatusCode is the HTTP status code
-  uint32 StatusCode = 1;
+  uint32 StatusCode = 2;
   // Status is the text representation of StatusCode
-  string Status = 2;
+  string Status = 3;
   // Reason for StatusCode when StatusCode is an error
-  string Reason = 3;
+  string Reason = 4;
 }
