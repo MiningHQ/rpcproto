@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+// Copyright (c) 2018 Donovan Solms / MiningHQ. Licensed under the MIT license.
+// See LICENSE in the root of this repository for details.
+package rpcproto;
+
+import "rpcproto/state.proto";
+import "rpcproto/stats.proto";
+
+// ManagerUpdate holds all the information for updating the manager interface
+message ManagerUpdate {
+  // State of the miner
+  MinerState State = 1;
+  // Stats if we're mining
+  MinerStats Stats = 2;
+  // Logs is the combined logs from all miners
+  string HTMLLogs = 3;
+}
