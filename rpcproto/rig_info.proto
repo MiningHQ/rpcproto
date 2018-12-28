@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+// Copyright (c) 2018 Donovan Solms / MiningHQ. Licensed under the MIT license.
+// See LICENSE in the root of this repository for details.
+package rpcproto;
+
+// RigInfoRequest requests the rig information from MiningHQ
+message RigInfoRequest {
+  string RigID = 1;
+}
+
+// RigInfoResponse is returned for a RigInfo request
+message RigInfoResponse {
+  // Name if the name of the rig
+  string Name = 1;
+  // Link is the link to the rig's page on MiningHQ
+  string Link = 2;
+}

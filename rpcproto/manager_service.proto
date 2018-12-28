@@ -7,10 +7,13 @@ package rpcproto;
 import "rpcproto/logs.proto";
 import "rpcproto/state.proto";
 import "rpcproto/stats.proto";
+import "rpcproto/rig_info.proto";
 
 // ManagerService implements a gRPC API for querying the rig locally
 // NB: This service is meant to run on localhost *ONLY*
 service ManagerService {
+  // GetInfo returns the information about the rig
+  rpc GetInfo (RigInfoRequest) returns (RigInfoResponse);
   // GetState requests the current rig state
   rpc GetState (StateRequest) returns (StateResponse);
   // SetState requests the rig to enter the specified state
