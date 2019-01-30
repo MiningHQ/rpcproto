@@ -39,4 +39,6 @@ message StatsRequest {
 message StatsResponse {
   // Stats contains the miner's stats
   repeated MinerStats Stats = 1;
+  // MinerVersions returns the versions of the miner assigned
+  repeated string MinerVersions = 2;
 }

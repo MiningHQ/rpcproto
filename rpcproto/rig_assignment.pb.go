@@ -8,9 +8,8 @@ package rpcproto
 
 import (
 	fmt "fmt"
-	math "math"
-
 	proto "github.com/golang/protobuf/proto"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -382,7 +381,7 @@ type RigAssignmentResponse struct {
 	Status string `protobuf:"bytes,2,opt,name=Status,proto3" json:"Status,omitempty"`
 	// Reason for StatusCode when StatusCode is an error
 	Reason string `protobuf:"bytes,3,opt,name=Reason,proto3" json:"Reason,omitempty"`
-	// MinerVersions return the versions of the miner assigned
+	// MinerVersions returns the versions of the miner assigned
 	MinerVersions        []string `protobuf:"bytes,4,rep,name=MinerVersions,proto3" json:"MinerVersions,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`

@@ -70,6 +70,6 @@ message RigAssignmentResponse {
   string Status = 2;
   // Reason for StatusCode when StatusCode is an error
   string Reason = 3;
-  // MinerVersions return the versions of the miner assigned
+  // MinerVersions returns the versions of the miner assigned
   repeated string MinerVersions = 4;
 }
