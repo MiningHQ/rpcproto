@@ -14,6 +14,10 @@ enum MinerState {
   Mining = 2;
   // StartMining stops the miner
   StopMining = 3;
+  // PauseMining stops the miner
+  PauseMining = 4;
+  // ResumeMining resumes the current strategy
+  ResumeMining = 5;
 }
 
 // StateRequest updates a miner's state
